@@ -1,0 +1,172 @@
+:root {
+    --tree-green-dark: #2a6a3b;
+    --tree-green-medium: #3a8a4b;
+    --tree-green-light: #4aa95b;
+    --trunk-brown: #795548;
+    --star-gold: #fbc02d;
+    --light-color-1: #ffeb3b; /* Amarelo */
+    --light-color-2: #f44336; /* Vermelho */
+    --light-color-3: #2196f3; /* Azul */
+    --light-color-4: #4caf50; /* Verde */
+    --shadow-dark: rgba(0, 0, 0, 0.4);
+    --shadow-light: rgba(255, 255, 255, 0.2);
+    --snow-white: #e0f2f7;
+    --bg-dark-blue: #0f2027; /* Fundo escuro para destacar o brilho */
+}
+
+body {
+    margin: 0;
+    overflow: hidden; /* Evita scroll */
+    background: linear-gradient(to bottom, var(--bg-dark-blue) 0%, #203a43 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* A árvore fica no chão */
+    position: relative;
+}
+
+/* Efeito de neve no fundo */
+.background-snow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, var(--snow-white) 1px, transparent 1px);
+    background-size: 20px 20px;
+    animation: snowFall 20s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes snowFall {
+    from { background-position: 0% 0%; }
+    to { background-position: 100% 100%; }
+}
+
+.christmas-tree-container {
+    position: relative;
+    width: 250px; /* Largura base da árvore */
+    height: 400px; /* Altura total da árvore */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    bottom: 20px; /* Um pouco acima da base da tela */
+    filter: drop-shadow(0 15px 10px var(--shadow-dark)); /* Sombra para dar profundidade */
+}
+
+/* Estrela no topo */
+.star-wrapper {
+    position: absolute;
+    top: -50px; /* Acima do primeiro segmento */
+    z-index: 10;
+}
+
+.star {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 40px solid var(--star-gold);
+    position: relative;
+    transform: rotate(35deg); /* Ajuste para parecer uma estrela */
+}
+
+.star:after {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -25px;
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-top: 40px solid var(--star-gold);
+    transform: rotate(-70deg);
+}
+
+.star.blinking-star {
+    animation: starBlink 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes starBlink {
+    from { text-shadow: none; box-shadow: none; }
+    to { 
+        text-shadow: 0 0 10px var(--star-gold), 0 0 20px var(--star-gold), 0 0 30px var(--star-gold); 
+        box-shadow: 0 0 10px var(--star-gold), 0 0 20px var(--star-gold), 0 0 30px var(--star-gold); 
+    }
+}
+
+
+/* Segmentos da Árvore (triângulos) */
+.tree-segment {
+    background: linear-gradient(to bottom, var(--tree-green-medium), var(--tree-green-dark));
+    width: 0;
+    height: 0;
+    border-left: 125px solid transparent; /* Metade da largura base */
+    border-right: 125px solid transparent;
+    position: absolute;
+    border-radius: 10px; /* Bordas arredondadas */
+}
+
+.segment-1 {
+    border-bottom: 150px solid var(--tree-green-light); /* Altura do segmento */
+    top: 0;
+    z-index: 3;
+    transform: scale(0.7); /* Segmento superior menor */
+}
+
+.segment-2 {
+    border-bottom: 200px solid var(--tree-green-medium);
+    top: 70px; /* Sobrepõe o primeiro */
+    z-index: 2;
+    transform: scale(0.85); /* Segmento do meio */
+}
+
+.segment-3 {
+    border-bottom: 250px solid var(--tree-green-dark);
+    top: 170px; /* Sobrepõe o segundo */
+    z-index: 1;
+    transform: scale(1); /* Segmento inferior, tamanho total */
+}
+
+/* Tronco */
+.trunk {
+    background-color: var(--trunk-brown);
+    width: 40px;
+    height: 70px;
+    position: absolute;
+    bottom: -10px; /* Ligeiramente abaixo do segmento inferior */
+    z-index: 0;
+    border-radius: 5px;
+}
+
+/* Luzes da Árvore */
+.light {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--light-color-1); /* Cor padrão, JS vai alternar */
+    box-shadow: 0 0 8px var(--light-color-1), 0 0 15px var(--light-color-1); /* Efeito de brilho */
+    z-index: 4;
+    transition: background-color 0.5s ease-in-out; /* Transição suave de cor */
+    animation: pulseLight 2s infinite alternate; /* Animação de pulsar */
+}
+
+/* Posições das luzes (ajuste conforme o layout da árvore) */
+.light-1 { top: 80px; left: 100px; background-color: var(--light-color-1); animation-delay: 0s; }
+.light-2 { top: 120px; left: 160px; background-color: var(--light-color-2); animation-delay: 0.2s; }
+.light-3 { top: 180px; left: 60px; background-color: var(--light-color-3); animation-delay: 0.4s; }
+.light-4 { top: 220px; left: 190px; background-color: var(--light-color-4); animation-delay: 0.6s; }
+.light-5 { top: 280px; left: 80px; background-color: var(--light-color-1); animation-delay: 0.8s; }
+.light-6 { top: 320px; left: 150px; background-color: var(--light-color-2); animation-delay: 1s; }
+.light-7 { top: 150px; left: 70px; background-color: var(--light-color-3); animation-delay: 1.2s; }
+.light-8 { top: 250px; left: 100px; background-color: var(--light-color-4); animation-delay: 1.4s; }
+.light-9 { top: 100px; left: 130px; background-color: var(--light-color-1); animation-delay: 1.6s; }
+.light-10 { top: 300px; left: 60px; background-color: var(--light-color-2); animation-delay: 1.8s; }
+
+
+@keyframes pulseLight {
+    from { opacity: 0.7; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1.1); }
+}
